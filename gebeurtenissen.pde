@@ -8,14 +8,14 @@ void openVak() {
     int x = vakPositiesX[vakTeller];
     int y = vakPositiesY[vakTeller];
     
-    if ( isTussen(x, x+vakDimensie, mouseX ) && isTussen(y, y+vakDimensie, mouseY) ) {
+    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) {
       
       if ( vakken[vakTeller] == 1 ) {
         gameOver = true;
       } else if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
-        break;
+        break; // is gemarkeerd, dus kan niet open
       } else if ( vakStatussen[vakTeller] == "open" ) {
-        //vakStatussen[vakTeller] = "dicht";
+        break; // is al open, kan niet dicht
       } else {
         vakStatussen[vakTeller] = "open";
       }
@@ -38,7 +38,7 @@ void markeerVak(){
     int x = vakPositiesX[vakTeller];
     int y = vakPositiesY[vakTeller];
     
-    if ( isTussen(x, x+vakDimensie, mouseX ) && isTussen(y, y+vakDimensie, mouseY) ) {
+    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) {
       
       if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
         aantalMarkeringen--;
@@ -70,7 +70,7 @@ void markeerVak(){
  */
 void gameOver() {
   if (gameOver) {
-    fill(foutKleur);
+    fill(FOUTKLEUR);
     rect(0, 0, width, height);
     
     fill(255);
@@ -93,7 +93,7 @@ void gameStart() {
 
 void gameGewonnen() {
  if ( aantalSchattenGemarkeerd == aantalSchatten() ) {
-   fill(succesKleur);
+   fill(SUCCESSKLEUR);
    rect(0, 0, width, height);
     
    fill(255);

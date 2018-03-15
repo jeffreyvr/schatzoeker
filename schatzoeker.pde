@@ -1,34 +1,30 @@
-final int AANTALRIJEN = 10;
-final int vakDimensie = 50;
-final int sBordHeight = 100;
+final int AANTALRIJEN         = 10;
+final int VAKDIMENSIE         = 50;
+final int SCOREBORDHOOGTE     = 100;  
+final int ACHTERGRONDKLEUR   = #ffeead;
+final int VAKKLEUR           = ACHTERGRONDKLEUR;
+final int VAKGEMARKEERDKLEUR = #ffcc5b;
+final int VAKSCHATKLEUR      = #ff6f69;
+final int VAKGEOPENDKLEUR    = #96ceb5; //<>//
+final int VAKRANDKLEUR       = #fffbeb;
+final int SCOREBORDKLEUR     = #88bbd9;
+final int SUCCESSKLEUR       = #88d8b0;
+final int FOUTKLEUR          = #ff6f69;
 
 int startTime;
-int[] vakken;
-int[] vakPositiesX;
-int[] vakPositiesY;
+int[] vakken, vakPositiesX, vakPositiesY;
 String[] vakStatussen;
 int aantalMarkeringen, aantalKliks, aantalSchattenGemarkeerd;
-  
-final int achtergrondKleur   = #ffeead;
-final int vakKleur           = achtergrondKleur;
-final int vakGemarkeerdKleur = #ffcc5b;
-final int vakSchatKleur      = #ff6f69;
-final int vakGeopendKleur    = #96ceb5; //<>//
-final int vakRandKleur       = #fffbeb;
-final int scoreBordKleur     = #88bbd9;
-final int succesKleur        = #88d8b0;
-final int foutKleur          = #ff6f69;
-
 boolean gameOver = false;
 
 /**
  * Settings 
  */
 void settings() {
-  int dWidth = (vakDimensie * AANTALRIJEN) + 1;
-  int dHeigt = dWidth;
+  int desktopBreedte = (VAKDIMENSIE * AANTALRIJEN) + 1;
+  int desktopHoogte = desktopBreedte;
   
-  size(dWidth, dHeigt+sBordHeight);
+  size(desktopBreedte, desktopHoogte+SCOREBORDHOOGTE);
 }
 
 /**
@@ -37,7 +33,7 @@ void settings() {
 void setup() {
   textAlign(LEFT);
      
-  background(achtergrondKleur);
+  background(ACHTERGRONDKLEUR);
   
   setGame();
 }
@@ -99,17 +95,17 @@ void keyPressed() {
  */
 void tekenScorebord() {
   stroke(#5c8aa0);
-  fill(scoreBordKleur);
-  rect(0, height, width, -sBordHeight); 
+  fill(SCOREBORDKLEUR);
+  rect(0, height, width, -SCOREBORDHOOGTE); 
   
   fill(255);
   textSize(14);
-  text("Markingen over: " + (aantalSchatten() - aantalMarkeringen), 10, height-(sBordHeight-56));
-  text("Aantal kliks: " + aantalKliks, 10, height-(sBordHeight-40));
+  text("Markingen over: " + (aantalSchatten() - aantalMarkeringen), 10, height-(SCOREBORDHOOGTE-56));
+  text("Aantal kliks: " + aantalKliks, 10, height-(SCOREBORDHOOGTE-40));
   
   int elapsed = millis() - startTime;
   
-  text("Seconden gespeeld: " + int(elapsed) / 1000, 10, height-(sBordHeight-72));
+  text("Seconden gespeeld: " + int(elapsed) / 1000, 10, height-(SCOREBORDHOOGTE-72));
 }
 
 /**
@@ -121,7 +117,7 @@ void tekenRooster() {
  
  for (int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
    
-   int clr                  = vakKleur;
+   int clr                  = VAKKLEUR;
    int aangrenzendeVakjes   = 0;
    boolean toonNummer       = false;
    
@@ -131,22 +127,22 @@ void tekenRooster() {
    
    if ( vakStatussen[vakTeller] == "open" ) {
      if ( vakken[vakTeller] == 1 ) {
-       clr = vakSchatKleur;
+       clr = VAKSCHATKLEUR;
      } else {
        toonNummer = true;
       }
    }
    
    if ( vakStatussen[vakTeller] == "gemarkeerd" && aantalMarkeringen < aantalSchatten() ) {
-     clr = vakGemarkeerdKleur;
+     clr = VAKGEMARKEERDKLEUR;
    }
    
-   tekenVak(clr, vakPositiesX[vakTeller], vakPositiesY[vakTeller], vakDimensie, vakDimensie);  
+   tekenVak(clr, vakPositiesX[vakTeller], vakPositiesY[vakTeller], VAKDIMENSIE, VAKDIMENSIE);  
    
    if ( toonNummer ) {
      textSize(14);
-     fill(scoreBordKleur);
-     text(aangrenzendeVakjes, vakPositiesX[vakTeller]+(vakDimensie/2), vakPositiesY[vakTeller]+(vakDimensie/2));
+     fill(SCOREBORDKLEUR);
+     text(aangrenzendeVakjes, vakPositiesX[vakTeller]+(VAKDIMENSIE/2), vakPositiesY[vakTeller]+(VAKDIMENSIE/2));
    }
   }
 }
@@ -161,14 +157,14 @@ int aangrezendeVakjes(int x, int y) {
       
     if ( vakken[vakTeller] != 1 ) continue;
     
-    if ( vakPositiesX[vakTeller] == (x - vakDimensie) && vakPositiesY[vakTeller] == y ) aangrenzend++; // links
-    if ( vakPositiesX[vakTeller] == (x + vakDimensie) && vakPositiesY[vakTeller] == y ) aangrenzend++; // rechts
-    if ( vakPositiesX[vakTeller] == x && vakPositiesY[vakTeller] == ( y - vakDimensie ) ) aangrenzend++; // boven
-    if ( vakPositiesX[vakTeller] == x && vakPositiesY[vakTeller] == ( y + vakDimensie ) ) aangrenzend++; // onder
-    if ( vakPositiesX[vakTeller] == (x - vakDimensie) && vakPositiesY[vakTeller] == (y-vakDimensie) ) aangrenzend++; // links hoek boven
-    if ( vakPositiesX[vakTeller] == (x - vakDimensie) && vakPositiesY[vakTeller] == (y+vakDimensie) ) aangrenzend++; // links hoek onder
-    if ( vakPositiesX[vakTeller] == (x + vakDimensie) && vakPositiesY[vakTeller] == (y-vakDimensie) ) aangrenzend++; // rechts hoek boven
-    if ( vakPositiesX[vakTeller] == (x + vakDimensie) && vakPositiesY[vakTeller] == (y+vakDimensie) ) aangrenzend++; // rechts hoek onder
+    if ( vakPositiesX[vakTeller] == (x - VAKDIMENSIE) && vakPositiesY[vakTeller] == y ) aangrenzend++; // links
+    if ( vakPositiesX[vakTeller] == (x + VAKDIMENSIE) && vakPositiesY[vakTeller] == y ) aangrenzend++; // rechts
+    if ( vakPositiesX[vakTeller] == x && vakPositiesY[vakTeller] == ( y - VAKDIMENSIE ) ) aangrenzend++; // boven
+    if ( vakPositiesX[vakTeller] == x && vakPositiesY[vakTeller] == ( y + VAKDIMENSIE ) ) aangrenzend++; // onder
+    if ( vakPositiesX[vakTeller] == (x - VAKDIMENSIE) && vakPositiesY[vakTeller] == (y-VAKDIMENSIE) ) aangrenzend++; // links hoek boven
+    if ( vakPositiesX[vakTeller] == (x - VAKDIMENSIE) && vakPositiesY[vakTeller] == (y+VAKDIMENSIE) ) aangrenzend++; // links hoek onder
+    if ( vakPositiesX[vakTeller] == (x + VAKDIMENSIE) && vakPositiesY[vakTeller] == (y-VAKDIMENSIE) ) aangrenzend++; // rechts hoek boven
+    if ( vakPositiesX[vakTeller] == (x + VAKDIMENSIE) && vakPositiesY[vakTeller] == (y+VAKDIMENSIE) ) aangrenzend++; // rechts hoek onder
   }
   
   return aangrenzend;
@@ -187,8 +183,8 @@ int[] maakVakPosities(String cor) {
    for ( int tellerY = 0; tellerY < AANTALRIJEN; tellerY++ ) {
      
      for ( int tellerX = 0; tellerX < AANTALRIJEN; tellerX++ ) {
-       vakPositiesX[vakTeller] = tellerX * vakDimensie;
-       vakPositiesY[vakTeller] = tellerY * vakDimensie;
+       vakPositiesX[vakTeller] = tellerX * VAKDIMENSIE;
+       vakPositiesY[vakTeller] = tellerY * VAKDIMENSIE;
        vakTeller++;
      }
      
@@ -213,7 +209,7 @@ int aantalSchatten() {
  */
 void tekenVak(int clr, int x, int y, int w, int h) {
   fill(clr);
-  stroke(vakRandKleur);
+  stroke(VAKRANDKLEUR);
   rect(x, y, w, h);
 }
 
