@@ -1,17 +1,18 @@
-final int AANTALRIJEN         = 10;
-final int VAKDIMENSIE         = 50;
-final int SCOREBORDHOOGTE     = 100;  
-final int ACHTERGRONDKLEUR   = #ffeead;
-final int VAKKLEUR           = ACHTERGRONDKLEUR;
-final int VAKGEMARKEERDKLEUR = #ffcc5b;
-final int VAKSCHATKLEUR      = #ff6f69;
-final int VAKGEOPENDKLEUR    = #96ceb5; //<>//
-final int VAKRANDKLEUR       = #fffbeb;
-final int SCOREBORDKLEUR     = #88bbd9;
-final int SUCCESSKLEUR       = #88d8b0;
-final int FOUTKLEUR          = #ff6f69;
+final int AANTALRIJEN           = 10;
+final int VAKDIMENSIE           = 50;
+final int SCOREBORDHOOGTE       = 100;  
+final int AANTALSCHATTENPROCENT = 15;
+final int ACHTERGRONDKLEUR      = #ffeead;
+final int VAKKLEUR              = ACHTERGRONDKLEUR;
+final int VAKGEMARKEERDKLEUR    = #ffcc5b;
+final int VAKSCHATKLEUR         = #ff6f69;
+final int VAKGEOPENDKLEUR       = #96ceb5; //<>//
+final int VAKRANDKLEUR          = #fffbeb;
+final int SCOREBORDKLEUR        = #88bbd9;
+final int SUCCESSKLEUR          = #88d8b0;
+final int FOUTKLEUR             = #ff6f69;
 
-int startTime;
+int speeltijd;
 int[] vakken, vakPositiesX, vakPositiesY;
 String[] vakStatussen;
 int aantalMarkeringen, aantalKliks, aantalSchattenGemarkeerd;
@@ -19,9 +20,11 @@ boolean gameOver = false;
 
 /**
  * Settings 
+ *
+ * Bepaal de grote van het spelvenster. 
  */
 void settings() {
-  int desktopBreedte = (VAKDIMENSIE * AANTALRIJEN) + 1;
+  int desktopBreedte = (VAKDIMENSIE * AANTALRIJEN) + 1; 
   int desktopHoogte = desktopBreedte;
   
   size(desktopBreedte, desktopHoogte+SCOREBORDHOOGTE);
@@ -29,6 +32,8 @@ void settings() {
 
 /**
  * Setup
+ *
+ * Initieer de game.
  */
 void setup() {
   textAlign(LEFT);
@@ -42,8 +47,8 @@ void setup() {
  * setGame
  */
 void setGame() {
-  startTime          = millis();
-  vakken             = definierSchatten();
+  speeltijd          = millis();
+  vakken             = definieerVakken();
   vakStatussen       = initVakstatussen();
   vakPositiesX       = maakVakPosities("x");
   vakPositiesY       = maakVakPosities("y");
@@ -103,7 +108,7 @@ void tekenScorebord() {
   text("Markingen over: " + (aantalSchatten() - aantalMarkeringen), 10, height-(SCOREBORDHOOGTE-56));
   text("Aantal kliks: " + aantalKliks, 10, height-(SCOREBORDHOOGTE-40));
   
-  int elapsed = millis() - startTime;
+  int elapsed = millis() - speeltijd;
   
   text("Seconden gespeeld: " + int(elapsed) / 1000, 10, height-(SCOREBORDHOOGTE-72));
 }
@@ -148,14 +153,17 @@ void tekenRooster() {
 }
 
 /**
- * Aangezende vakjes
+ * AangrenzendeVakjes
+ *
+ * Bekijk of een vakje grenst aan een schat. 
+ * Retourneert het aantal aangrenzende schatten.
  */
 int aangrezendeVakjes(int x, int y) {
   int aangrenzend = 0;
   
-  for (int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
+  for ( int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
       
-    if ( vakken[vakTeller] != 1 ) continue;
+    if ( vakken[vakTeller] != 1 ) continue; // is geen schat, ga verder
     
     if ( vakPositiesX[vakTeller] == (x - VAKDIMENSIE) && vakPositiesY[vakTeller] == y ) aangrenzend++; // links
     if ( vakPositiesX[vakTeller] == (x + VAKDIMENSIE) && vakPositiesY[vakTeller] == y ) aangrenzend++; // rechts
@@ -171,7 +179,10 @@ int aangrezendeVakjes(int x, int y) {
 }
 
 /**
- * Maak Vak posities
+ * MaakVakPosities
+ *
+ * Bepaal de x en y waarden van de vakken en zet deze in arrays. Hiermee kun
+ * je in andere spelmomenten bepalen welk vakje wordt aangeklikt.
  */
 int[] maakVakPosities(String cor) {
   
@@ -199,9 +210,11 @@ int[] maakVakPosities(String cor) {
 
 /**
  * AantalSchatten
+ *
+ * Retourneer het aantal schatten die in het spel nodig zijn.
  */
 int aantalSchatten() {
-  return ( AANTALRIJEN * AANTALRIJEN ) / 100 * 15; // 15 procent
+  return ( AANTALRIJEN * AANTALRIJEN ) / 100 * AANTALSCHATTENPROCENT;
 }
 
 /**
@@ -214,17 +227,25 @@ void tekenVak(int clr, int x, int y, int w, int h) {
 }
 
 /**
- * Definier schatten
+ * Definier vakken
+ *
+ * Loop door vakken en stel willekeurig het aantal benodigde
+ * schatten vast.
  */
-int[] definierSchatten() {
-  int[] vakken = new int[AANTALRIJEN*AANTALRIJEN];
+int[] definieerVakken() {
+  int[] vakken = new int[AANTALRIJEN*AANTALRIJEN]; // maak array met aantal benodigde vakken
   
-  for( int i = 0; i < aantalSchatten(); i++){
+  for( int i = 0; i < aantalSchatten(); i++ ){
     
+    // blijf loopen tot het aantal benodigde schatten willekeurig zijn gedefinieerd
     while ( aantalSchattenVastgesteld(vakken) < aantalSchatten() ) {
-      int random = (int) random(0, vakken.length);
-      vakken[random] = 1;
+      
+      int random = (int) random(0, vakken.length); // bepaal random nummer als schat
+      
+      vakken[random] = 1; // zet waarde op 1 om als vak als schat aan te merken
+      
     }
+    
   }
   
   return vakken;
@@ -232,13 +253,15 @@ int[] definierSchatten() {
 
 /**
  * Aantal schatten vastgesteld
+ *
+ * Bereken hoeveel schatten er inmiddels zijn vastgesteld.
  */
-int aantalSchattenVastgesteld(int[] schatten) {
+int aantalSchattenVastgesteld(int[] vakken) {
   int teller = 0;
   
-  for ( int schat : schatten ) {
-    if ( schat == 1 ) {
-      teller++;
+  for ( int vak : vakken ) {
+    if ( vak == 1 ) { // als waarde 1 is, is het vak een schat
+      teller++; // hoog totaal aantal schatten op
     } 
     
   }
@@ -248,12 +271,17 @@ int aantalSchattenVastgesteld(int[] schatten) {
 
 /**
  * Initieren vakStatussen
+ *
+ * Retourneert een array met vakstatussen. Deze zijn eerst altijd dicht.
+ * Op specifieke moment in het spel kan dit opgeroepen en gewijzigd worden.
  */
 String[] initVakstatussen() {
   String[] vakStatussen = new String[AANTALRIJEN*AANTALRIJEN];
   
   for( int i = 0; i < vakStatussen.length; i++){
+    
     vakStatussen[i] = "dicht";
+    
   }
   
   return vakStatussen;

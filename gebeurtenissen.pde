@@ -1,5 +1,8 @@
 /**
- * Open vak
+ * OpenVak
+ *
+ * Open een vakje. Controleert de status en past indien 
+ * nodig de status in vakStatussen array aan.
  */
 void openVak() {
   
@@ -8,19 +11,23 @@ void openVak() {
     int x = vakPositiesX[vakTeller];
     int y = vakPositiesY[vakTeller];
     
-    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) {
+    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) { // aangeklikte vakje gevonden
       
       if ( vakken[vakTeller] == 1 ) {
         gameOver = true;
+        
       } else if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
         break; // is gemarkeerd, dus kan niet open
+        
       } else if ( vakStatussen[vakTeller] == "open" ) {
         break; // is al open, kan niet dicht
+        
       } else {
         vakStatussen[vakTeller] = "open";
+        
       }
       
-      break;
+      break; // vakje is gevonden, dus stoppen met de loop
       
     }
     
@@ -29,35 +36,39 @@ void openVak() {
 }
 
 /**
- * markeer vak
+ * MarkeerVak
+ *
+ * Markeer een vakje. Controleert de status van het vakje en past
+ * de status in de vakStatussen array aan.
+ * Hoogt ook het aantal gemarkeerde schatten (indien van toepassing) aan.
  */
 void markeerVak(){ 
   
-  for (int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
+  for ( int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
     
     int x = vakPositiesX[vakTeller];
     int y = vakPositiesY[vakTeller];
     
-    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) {
+    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) { // vakje gevonden
       
-      if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
+      if ( vakStatussen[vakTeller] == "gemarkeerd" ) { // vak is gemarkeerd, dus weer dicht zetten
         aantalMarkeringen--;
         vakStatussen[vakTeller] = "dicht";
         
          if ( vakken[vakTeller] == 1 ) {
-           aantalSchattenGemarkeerd--; 
+           aantalSchattenGemarkeerd--; // schat was gemarkeerd, nu niet meer
          }
       } else {
         aantalMarkeringen++;
         vakStatussen[vakTeller] = "gemarkeerd";
         
         if ( vakken[vakTeller] == 1 ) {
-         aantalSchattenGemarkeerd++; 
+         aantalSchattenGemarkeerd++; // gemarkeerde vak is een schat (waarde = 1), dus aantal schatmarkeringen ophogen
         }
         
       }
       
-      break;
+      break; // vakje gevonden, dus stoppen met loop
       
     }
     
@@ -66,7 +77,10 @@ void markeerVak(){
 }
 
 /**
- * Game over 
+ * Game over
+ *
+ * Laat een game over -scherm zien als gameOver (true) retourneert.
+ * Wordt steeds gecontroleerd in draw() functie.
  */
 void gameOver() {
   if (gameOver) {
@@ -83,6 +97,8 @@ void gameOver() {
 
 /**
  * Game start
+ *
+ * Functie om game opnieuw op te zetten.
  */
 void gameStart() {
   if ( gameOver ) {
@@ -91,6 +107,12 @@ void gameStart() {
   }
 }
 
+/**
+ * GameGewonnen
+ *
+ * Als alle schatten zijn gemarkeerd, heb je het spel gewonnen.
+ * Hieruit volgt een game win -scherm.
+ */
 void gameGewonnen() {
  if ( aantalSchattenGemarkeerd == aantalSchatten() ) {
    fill(SUCCESSKLEUR);
@@ -102,11 +124,4 @@ void gameGewonnen() {
    textSize(16);
    text("Druk op een toets om opnieuw te beginnen.", (width/2)-200, (height/2)+20);
  }
-}
-
-/**
- * isTussen
- */
-boolean isTussen( int x1, int x2, int pos ){
-  return ( pos >= x1 && pos <= x2 ) ? true :  false;
 }

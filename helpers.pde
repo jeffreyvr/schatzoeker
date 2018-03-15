@@ -1,16 +1,8 @@
-int[] vakkenTot(int tot) {
-  println(tot);
-  
-  int[] resultaat = new int[0];
-  
-  for (int i = 0; i < resultaat.length; i++){
-    
-    resultaat[i] = i;
-    
-    if ( i == tot ) break;
-    
-  }
-  
-  
-  return resultaat;
+/**
+ * IsTussen
+ *
+ * Kijkt of een positie tussen een eerste en tweede positie valt en routourneert boolean.
+ */
+boolean isTussen( int x1, int x2, int pos ){
+  return ( pos >= x1 && pos <= x2 ) ? true :  false;
 }
