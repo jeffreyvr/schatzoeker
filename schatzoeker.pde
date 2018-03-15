@@ -24,10 +24,10 @@ boolean gameOver = false;
  * Bepaal de grote van het spelvenster. 
  */
 void settings() {
-  int desktopBreedte = (VAKDIMENSIE * AANTALRIJEN) + 1; 
-  int desktopHoogte = desktopBreedte;
+  int desktopBreedte = (VAKDIMENSIE * AANTALRIJEN) + 1; // breedte op basis van aantal vakken
+  int desktopHoogte = desktopBreedte; // rooster is vierkant, dus gelijk aan breedte
   
-  size(desktopBreedte, desktopHoogte+SCOREBORDHOOGTE);
+  size(desktopBreedte, desktopHoogte+SCOREBORDHOOGTE); // hoogte nu plus hoogte van scorenbord
 }
 
 /**
@@ -40,13 +40,13 @@ void setup() {
      
   background(ACHTERGRONDKLEUR);
   
-  setGame();
+  initieerGame();
 }
 
 /**
- * setGame
+ * initieerGame
  */
-void setGame() {
+void initieerGame() {
   speeltijd          = millis();
   vakken             = definieerVakken();
   vakStatussen       = initVakstatussen();
@@ -57,7 +57,7 @@ void setGame() {
 }
 
 /**
- * Draw 
+ * Draw
  */
 void draw() {
   
@@ -89,10 +89,17 @@ void mousePressed() {
   }
 }
 
+/**
+ * KeyPressed
+ *
+ * Bij willekeurig keypress in game over -mode spel weer starten.
+ */
 void keyPressed() {
   if (gameOver && keyPressed == true) {
      gameStart();
   }
+  
+  // game gewonnen toevoegen
 }
 
 /**
@@ -106,11 +113,8 @@ void tekenScorebord() {
   fill(255);
   textSize(14);
   text("Markingen over: " + (aantalSchatten() - aantalMarkeringen), 10, height-(SCOREBORDHOOGTE-56));
-  text("Aantal kliks: " + aantalKliks, 10, height-(SCOREBORDHOOGTE-40));
-  
-  int elapsed = millis() - speeltijd;
-  
-  text("Seconden gespeeld: " + int(elapsed) / 1000, 10, height-(SCOREBORDHOOGTE-72));
+  text("Aantal kliks: " + aantalKliks, 10, height-(SCOREBORDHOOGTE-40));  
+  text("Seconden gespeeld: " + ((int) millis() - speeltijd) / 1000, 10, height-(SCOREBORDHOOGTE-72)); // minus speeltijd bij reset
 }
 
 /**
@@ -126,17 +130,9 @@ void tekenRooster() {
    int aangrenzendeVakjes   = 0;
    boolean toonNummer       = false;
    
-   if ( vakken[vakTeller] != 1 ) { // schat
-     aangrenzendeVakjes = aangrezendeVakjes(vakPositiesX[vakTeller], vakPositiesY[vakTeller]);
-   }
+   if ( vakken[vakTeller] != 1 ) aangrenzendeVakjes = aangrezendeVakjes(vakPositiesX[vakTeller], vakPositiesY[vakTeller]); // aangrenzendevakjes
    
-   if ( vakStatussen[vakTeller] == "open" ) {
-     if ( vakken[vakTeller] == 1 ) {
-       clr = VAKSCHATKLEUR;
-     } else {
-       toonNummer = true;
-      }
-   }
+   if ( vakStatussen[vakTeller] == "open" ) toonNummer = true;
    
    if ( vakStatussen[vakTeller] == "gemarkeerd" && aantalMarkeringen < aantalSchatten() ) {
      clr = VAKGEMARKEERDKLEUR;

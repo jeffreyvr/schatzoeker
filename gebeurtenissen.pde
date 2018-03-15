@@ -55,16 +55,13 @@ void markeerVak(){
         aantalMarkeringen--;
         vakStatussen[vakTeller] = "dicht";
         
-         if ( vakken[vakTeller] == 1 ) {
-           aantalSchattenGemarkeerd--; // schat was gemarkeerd, nu niet meer
-         }
+         if ( vakken[vakTeller] == 1 ) aantalSchattenGemarkeerd--; // schat was gemarkeerd, nu niet meer
+         
       } else {
         aantalMarkeringen++;
         vakStatussen[vakTeller] = "gemarkeerd";
         
-        if ( vakken[vakTeller] == 1 ) {
-         aantalSchattenGemarkeerd++; // gemarkeerde vak is een schat (waarde = 1), dus aantal schatmarkeringen ophogen
-        }
+        if ( vakken[vakTeller] == 1 )  aantalSchattenGemarkeerd++; // gemarkeerde vak is een schat (waarde = 1), dus aantal schatmarkeringen ophogen
         
       }
       
@@ -103,7 +100,7 @@ void gameOver() {
 void gameStart() {
   if ( gameOver ) {
     gameOver = false;
-    setGame();
+    initieerGame();
   }
 }
 
