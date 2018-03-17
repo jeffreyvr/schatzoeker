@@ -1,94 +1,48 @@
 /**
- * OpenVak
- *
- * Open een vakje. Controleert de status en past indien 
- * nodig de status in vakStatussen array aan.
+ * MousePressed 
  */
-void openVak() {
+void mousePressed() {
+  if ( gameGestart && mouseButton == LEFT ) {
+    openVak();
+  }
   
-  for (int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
-    
-    int x = vakPositiesX[vakTeller];
-    int y = vakPositiesY[vakTeller];
-    
-    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) { // aangeklikte vakje gevonden
-      
-      if ( vakken[vakTeller] == 1 ) {
-        gameOver = true;
-        
-      } else if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
-        break; // is gemarkeerd, dus kan niet open
-        
-      } else if ( vakStatussen[vakTeller] == "open" ) {
-        break; // is al open, kan niet dicht
-        
-      } else {
-        vakStatussen[vakTeller] = "open";
-        
-      }
-      
-      break; // vakje is gevonden, dus stoppen met de loop
-      
+  if ( gameGestart && mouseButton == RIGHT ) {
+    markeerVak();
+  }
+  
+  // rij keuze
+  if ( gameGestart == false && isTussen( 0, SCOREBORDBREEDTE, mouseX ) ) {
+   
+    if ( isTussen( (height / 2), (height / 2) + 30, mouseY ) ) {
+      aantalrijen = 10;
+      initieerGame();
+    } else if ( isTussen( (height / 2), (height / 2) + 30*2, mouseY ) ) {
+      aantalrijen = 20;
+      initieerGame();
+    } else if ( isTussen( (height / 2), (height / 2) + 30*3, mouseY ) ) {
+      aantalrijen = 30;
+      initieerGame();
     }
     
   }
-  
+    
+  if (! gameOver ) {
+    aantalKliks++;
+  }
 }
 
 /**
- * MarkeerVak
+ * KeyPressed
  *
- * Markeer een vakje. Controleert de status van het vakje en past
- * de status in de vakStatussen array aan.
- * Hoogt ook het aantal gemarkeerde schatten (indien van toepassing) aan.
+ * Bij willekeurig keypress in game over -mode spel weer starten.
  */
-void markeerVak(){ 
-  
-  for ( int vakTeller = 0; vakTeller < vakken.length; vakTeller++ ) {
-    
-    int x = vakPositiesX[vakTeller];
-    int y = vakPositiesY[vakTeller];
-    
-    if ( isTussen(x, x+VAKDIMENSIE, mouseX ) && isTussen(y, y+VAKDIMENSIE, mouseY) ) { // vakje gevonden
-      
-      if ( vakStatussen[vakTeller] == "gemarkeerd" ) { // vak is gemarkeerd, dus weer dicht zetten
-        aantalMarkeringen--;
-        vakStatussen[vakTeller] = "dicht";
-        
-         if ( vakken[vakTeller] == 1 ) aantalSchattenGemarkeerd--; // schat was gemarkeerd, nu niet meer
-         
-      } else {
-        aantalMarkeringen++;
-        vakStatussen[vakTeller] = "gemarkeerd";
-        
-        if ( vakken[vakTeller] == 1 )  aantalSchattenGemarkeerd++; // gemarkeerde vak is een schat (waarde = 1), dus aantal schatmarkeringen ophogen
-        
-      }
-      
-      break; // vakje gevonden, dus stoppen met loop
-      
-    }
-    
+void keyPressed() {
+  if (gameOver || gameGewonnen && keyPressed == true) {
+     gameStart();
   }
   
-}
-
-/**
- * Game over
- *
- * Laat een game over -scherm zien als gameOver (true) retourneert.
- * Wordt steeds gecontroleerd in draw() functie.
- */
-void gameOver() {
-  if (gameOver) {
-    fill(FOUTKLEUR);
-    rect(0, 0, width, height);
-    
-    fill(255);
-    textSize(32);
-    text("GAME OVER!", (width/2)-50, height/2);
-    textSize(16);
-    text("Druk op een toets om opnieuw te beginnen.", (width/2)-200, (height/2)+20);
+  if ( keyPressed && gameGestart == false ) {
+    initieerGame();
   }
 }
 
@@ -102,23 +56,4 @@ void gameStart() {
     gameOver = false;
     initieerGame();
   }
-}
-
-/**
- * GameGewonnen
- *
- * Als alle schatten zijn gemarkeerd, heb je het spel gewonnen.
- * Hieruit volgt een game win -scherm.
- */
-void gameGewonnen() {
- if ( aantalSchattenGemarkeerd == aantalSchatten() ) {
-   fill(SUCCESSKLEUR);
-   rect(0, 0, width, height);
-    
-   fill(255);
-   textSize(32);
-   text("Je hebt alle schatten gevonden!", (width/2)-50, height/2);
-   textSize(16);
-   text("Druk op een toets om opnieuw te beginnen.", (width/2)-200, (height/2)+20);
- }
 }
