@@ -40,10 +40,6 @@ void keyPressed() {
   if (gameOver || gameGewonnen && keyPressed == true) {
      gameStart();
   }
-  
-  if ( keyPressed && gameGestart == false ) {
-    initieerGame();
-  }
 }
 
 /**

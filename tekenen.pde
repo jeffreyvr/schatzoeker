@@ -22,13 +22,15 @@ void tekenRooster() {
    
    if ( vakken[vakTeller] != 1 ) aangrenzendeVakjes = aangrezendeVakjes(vakPositiesX[vakTeller], vakPositiesY[vakTeller]); // aangrenzendevakjes
    
-   if ( vakStatussen[vakTeller] == "open" ) toonNummer = true;
+   if ( vakken[vakTeller] == 1 && vakStatussen[vakTeller] == "open" ) { // schat wordt geopend, dus game over
+     clr = FOUTKLEUR;
+     gameOver = true;
+   }
+   if ( vakken[vakTeller] != 1 && vakStatussen[vakTeller] == "open" ) toonNummer = true;
    
    if ( vakStatussen[vakTeller] == "gemarkeerd" && aantalMarkeringen < aantalSchatten() ) clr = VAKGEMARKEERDKLEUR;
    
    tekenVak(clr, vakPositiesX[vakTeller], vakPositiesY[vakTeller], vakDimensie, vakDimensie);  
-   
-   println(toonNummer);
    
    if ( toonNummer ) {
      textAlign(CENTER);

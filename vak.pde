@@ -56,10 +56,7 @@ void openVak() {
     
     if ( isTussen(x, x+vakDimensie, mouseX ) && isTussen(y, y+vakDimensie, mouseY) ) { // aangeklikte vakje gevonden
       
-      if ( vakken[vakTeller] == 1 ) {
-        gameOver = true;
-        
-      } else if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
+      if ( vakStatussen[vakTeller] == "gemarkeerd" ) {
         break; // is gemarkeerd, dus kan niet open
         
       } else if ( vakStatussen[vakTeller] == "open" ) {

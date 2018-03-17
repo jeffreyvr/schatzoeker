@@ -23,7 +23,7 @@ boolean gameOver, gameGewonnen, gameGestart = false;
 void settings() {
   int spelDimensie = displayWidth / 2 ; // breedte is de helft van de beeldscherm
   
-  size(spelDimensie + SCOREBORDBREEDTE, spelDimensie); // breedte nu plus breedte van scorenbord
+  size(spelDimensie + SCOREBORDBREEDTE, spelDimensie); // breedte nu plus breedte van scorebord
 }
 
 /**
