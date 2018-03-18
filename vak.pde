@@ -102,6 +102,7 @@ void markeerVak(){
       } else {
         aantalMarkeringen++;
         vakStatussen[vakTeller] = "gemarkeerd";
+        aantalKliks++; // hoog aantal kliks op
         
         if ( vakken[vakTeller] == 1 )  aantalSchattenGemarkeerd++; // gemarkeerde vak is een schat (waarde = 1), dus aantal schatmarkeringen ophogen
         
