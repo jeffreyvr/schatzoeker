@@ -9,7 +9,7 @@ final int VAKRANDKLEUR          = #d3bf83;
 final int SUCCESSKLEUR          = #88d8b0;
 final int FOUTKLEUR             = #ff6f69;
 
-int speeltijd, vakDimensie, aantalrijen;
+int speeltijd, vakDimensie, aantalrijen, eindTijd;
 int[] vakken, vakPositiesX, vakPositiesY;
 String[] vakStatussen;
 int aantalMarkeringen, aantalKliks, aantalSchattenGemarkeerd;
@@ -59,12 +59,9 @@ void draw() {
   tekenLinkerBalk();
   tekenSpelTitel();
   
-  //println("Game over: "+gameOver);
-  //println("Gewonnen: "+gameGewonnen);
-  //println("Gestart: "+gameGestart);
-  
   if ( gameOver ) {
     tekenGameOver();
+    tekenScorebord();
   
   } else if ( gameGewonnen ) {
     tekenGameGewonnen();

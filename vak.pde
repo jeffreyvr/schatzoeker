@@ -64,7 +64,7 @@ void openVak() {
         
       } else {
         vakStatussen[vakTeller] = "open";
-        
+        aantalKliks++; // hoog aantal kliks op
       }
       
       break; // vakje is gevonden, dus stoppen met de loop
@@ -90,6 +90,8 @@ void markeerVak(){
     int y = vakPositiesY[vakTeller];
     
     if ( isTussen(x, x+vakDimensie, mouseX ) && isTussen(y, y+vakDimensie, mouseY) ) { // vakje gevonden
+      
+      if ( vakStatussen[vakTeller] == "open" ) break; // vak is al open, dus kan niet markeren
       
       if ( vakStatussen[vakTeller] == "gemarkeerd" ) { // vak is gemarkeerd, dus weer dicht zetten
         aantalMarkeringen--;

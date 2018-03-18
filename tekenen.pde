@@ -61,7 +61,19 @@ void tekenScorebord() {
   textSize(14);
   text("Seconden gespeeld: ", SCOREBORDBREEDTE / 2, (height / 2) + 56 );
   textSize(28);
-  text(((int) millis() - speeltijd) / 1000, SCOREBORDBREEDTE / 2, (height / 2) + 84 ); // minus speeltijd bij reset
+  
+  if ( gameOver ) { // bij game over tijd stoppen
+    
+    if  ( eindTijd == 0 ) {
+      eindTijd = (int) millis();
+    }
+    
+    text(eindTijd / 1000, SCOREBORDBREEDTE / 2, (height / 2) + 84 );
+  } else {
+    text(((int) millis()-speeltijd) / 1000, SCOREBORDBREEDTE / 2, (height / 2) + 84 ); // minus speeltijd bij reset
+  
+  }
+  
 }
 
 /**
@@ -100,9 +112,9 @@ void tekenStartMenu() {
  */
 void tekenSpelTitel() {
   fill(255);
-  textSize(28);
+  textSize(26);
   textAlign(CENTER);
-  text("Schatzoeker", SCOREBORDBREEDTE / 2, 28 );
+  text("Schatzoeker", SCOREBORDBREEDTE / 2, 30 );
 }
 
 /**
@@ -112,11 +124,12 @@ void tekenSpelTitel() {
  */
 void tekenGameOver() {
   fill(FOUTKLEUR);
-  textSize(28);
+  textSize(24);
   textAlign(CENTER);
-  text("Verloren :(", SCOREBORDBREEDTE / 2, height - 100 );
-  //textSize(16);
-  //text("Druk op een toets om opnieuw te beginnen.", SCOREBORDBREEDTE / 2, height - 72);
+  text("Verloren...", SCOREBORDBREEDTE / 2, SCOREBORDBREEDTE / 2, 30*2);
+  textSize(15);
+  text("SPACEBAR = startscherm", SCOREBORDBREEDTE / 2, 30*5);
+  text("ENTER = opnieuw", SCOREBORDBREEDTE / 2, 30*6);
 }
 
 /**
@@ -127,7 +140,10 @@ void tekenGameOver() {
  */
 void tekenGameGewonnen() {
   fill(SUCCESSKLEUR);
-  textSize(28);
+  textSize(24);
   textAlign(CENTER);
-  text("Gewonnen! :)", SCOREBORDBREEDTE / 2, height - 100 );
+  text("Gewonnen!", SCOREBORDBREEDTE / 2, SCOREBORDBREEDTE / 2, 30*2);
+  textSize(15);
+  text("SPACEBAR = startscherm", SCOREBORDBREEDTE / 2, 30*5);
+  text("ENTER = opnieuw", SCOREBORDBREEDTE / 2, 30*6);
 }

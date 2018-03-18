@@ -2,16 +2,18 @@
  * MousePressed 
  */
 void mousePressed() {
-  if ( gameGestart && mouseButton == LEFT ) {
-    openVak();
-  }
-  
-  if ( gameGestart && mouseButton == RIGHT ) {
-    markeerVak();
+  if ( gameGestart && ! gameOver ) {
+    
+    if ( mouseButton == LEFT ) {
+      openVak();
+    } else if ( mouseButton == RIGHT ) {
+      markeerVak();
+    }
+    
   }
   
   // rij keuze
-  if ( gameGestart == false && isTussen( 0, SCOREBORDBREEDTE, mouseX ) ) {
+  if ( ! gameGestart && isTussen( 0, SCOREBORDBREEDTE, mouseX ) ) {
    
     if ( isTussen( (height / 2), (height / 2) + 30, mouseY ) ) {
       aantalrijen = 10;
@@ -25,10 +27,6 @@ void mousePressed() {
     }
     
   }
-    
-  if (! gameOver ) {
-    aantalKliks++;
-  }
 }
 
 /**
@@ -37,8 +35,13 @@ void mousePressed() {
  * Bij willekeurig keypress in game over -mode spel weer starten.
  */
 void keyPressed() {
-  if (gameOver || gameGewonnen && keyPressed == true) {
-     gameStart();
+  if ( gameOver || gameGewonnen ) {
+    if ( keyCode == ENTER) {
+       gameStart();
+    } else if ( keyCode == 32 ) { // spacebar
+      gameGestart = false;
+      gameOver = false;
+    }
   }
 }
 
