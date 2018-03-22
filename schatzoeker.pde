@@ -1,13 +1,13 @@
-final int SCOREBORDBREEDTE      = 200;
-final int AANTALSCHATTENPROCENT = 15;
-final int ACHTERGRONDKLEUR      = #efd894;
-final int VAKKLEUR              = #efd894;
-final int VAKGEMARKEERDKLEUR    = #ffcc5b;
-final int VAKSCHATKLEUR         = #ff6f69;
-final int VAKGEOPENDKLEUR       = #96ceb5; //<>//
-final int VAKRANDKLEUR          = #d3bf83;
-final int SUCCESSKLEUR          = #88d8b0;
-final int FOUTKLEUR             = #ff6f69;
+final int LINKERBALKBREEDTE      = 200;
+final int AANTALSCHATTENPROCENT  = 15;
+final int ACHTERGRONDKLEUR       = #efd894;
+final int VAKKLEUR               = #efd894;
+final int VAKGEMARKEERDKLEUR     = #ffcc5b;
+final int VAKSCHATKLEUR          = #ff6f69;
+final int VAKGEOPENDKLEUR        = #96ceb5; //<>//
+final int VAKRANDKLEUR           = #d3bf83;
+final int SUCCESSKLEUR           = #88d8b0;
+final int FOUTKLEUR              = #ff6f69;
 
 int speeltijd, vakDimensie, aantalrijen, eindTijd;
 int[] vakken, vakPositiesX, vakPositiesY;
@@ -23,7 +23,7 @@ boolean gameOver, gameGewonnen, gameGestart = false;
 void settings() {
   int spelDimensie = displayWidth / 2 ; // breedte is de helft van de beeldscherm
   
-  size(spelDimensie + SCOREBORDBREEDTE, spelDimensie); // breedte nu plus breedte van scorebord
+  size(spelDimensie + LINKERBALKBREEDTE, spelDimensie); // breedte nu plus breedte van scorebord
 }
 
 /**
@@ -42,7 +42,7 @@ void setup() {
  */
 void initieerGame() {
   gameGestart        = true;
-  vakDimensie        = (width-SCOREBORDBREEDTE) / aantalrijen; // bepaal dimensie van een vak
+  vakDimensie        = (width-LINKERBALKBREEDTE) / aantalrijen; // bepaal dimensie van een vak
   speeltijd          = millis();
   vakken             = definieerVakken();
   vakStatussen       = initVakstatussen();

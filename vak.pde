@@ -143,3 +143,33 @@ int aangrezendeVakjes(int x, int y) {
   
   return aangrenzend;
 }
+
+/**
+ * MaakVakPosities
+ *
+ * Bepaal de x en y waarden van de vakken en zet deze in arrays. Hiermee kun
+ * je in andere spelmomenten bepalen welk vakje wordt aangeklikt.
+ */
+int[] maakVakPosities(String cor) {
+  
+   int vakTeller = 0;
+ 
+   int[] vakPositiesX = new int[aantalrijen*aantalrijen];
+   int[] vakPositiesY = new int[aantalrijen*aantalrijen];
+ 
+   for ( int tellerY = 0; tellerY < aantalrijen; tellerY++ ) {
+     
+     for ( int tellerX = 0; tellerX < aantalrijen; tellerX++ ) {
+       vakPositiesX[vakTeller] = ( tellerX * vakDimensie ) + LINKERBALKBREEDTE;
+       vakPositiesY[vakTeller] = tellerY * vakDimensie;
+       vakTeller++;
+     }
+     
+   }
+  
+  if ( cor == "x" ) {
+    return vakPositiesX;
+  }
+  
+  return vakPositiesY;
+}

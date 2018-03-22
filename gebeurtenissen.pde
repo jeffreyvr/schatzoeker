@@ -13,7 +13,7 @@ void mousePressed() {
   }
   
   // rij keuze
-  if ( ! gameGestart && isTussen( 0, SCOREBORDBREEDTE, mouseX ) ) {
+  if ( ! gameGestart && isTussen( 0, LINKERBALKBREEDTE, mouseX ) ) {
    
     if ( isTussen( (height / 2), (height / 2) + 30, mouseY ) ) {
       aantalrijen = 10;
