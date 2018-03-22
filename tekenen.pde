@@ -35,7 +35,7 @@ void tekenRooster() {
    if ( toonNummer ) {
      textAlign(CENTER);
      textSize(14);
-     fill(255);
+     fill(0);
      text(aangrenzendeVakjes, vakPositiesX[vakTeller]+(vakDimensie/2), vakPositiesY[vakTeller]+(vakDimensie/2));
    }
   }
@@ -127,7 +127,7 @@ void tekenGameOver() {
   textSize(24);
   textAlign(CENTER);
   text("Verloren...", LINKERBALKBREEDTE / 2, LINKERBALKBREEDTE / 2, 30*2);
-  textSize(15);
+  textSize(12);
   text("SPACEBAR = startscherm", LINKERBALKBREEDTE / 2, 30*5);
   text("ENTER = opnieuw", LINKERBALKBREEDTE / 2, 30*6);
 }
@@ -143,7 +143,7 @@ void tekenGameGewonnen() {
   textSize(24);
   textAlign(CENTER);
   text("Gewonnen!", LINKERBALKBREEDTE / 2, LINKERBALKBREEDTE / 2, 30*2);
-  textSize(15);
+  textSize(12);
   text("SPACEBAR = startscherm", LINKERBALKBREEDTE / 2, 30*5);
   text("ENTER = opnieuw", LINKERBALKBREEDTE / 2, 30*6);
 }
