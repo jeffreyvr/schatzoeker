@@ -6,7 +6,7 @@ final int VAKGEMARKEERDKLEUR     = #ffcc5b;
 final int VAKSCHATKLEUR          = #ff6f69;
 final int VAKGEOPENDKLEUR        = #96ceb5; //<>//
 final int VAKRANDKLEUR           = #d3bf83;
-final int SUCCESSKLEUR           = #88d8b0;
+final int SUCCESKLEUR            = #88d8b0;
 final int FOUTKLEUR              = #ff6f69;
 
 int speeltijd, vakDimensie, aantalrijen, eindTijd;
