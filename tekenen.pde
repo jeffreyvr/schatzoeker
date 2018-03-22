@@ -139,7 +139,7 @@ void tekenGameOver() {
  * Hieruit volgt een game win -scherm.
  */
 void tekenGameGewonnen() {
-  fill(SUCCESSKLEUR);
+  fill(SUCCESKLEUR);
   textSize(24);
   textAlign(CENTER);
   text("Gewonnen!", LINKERBALKBREEDTE / 2, LINKERBALKBREEDTE / 2, 30*2);
